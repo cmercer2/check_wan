@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+Check current wan and log changes to txt file
+"""
 
 import subprocess
 from datetime import datetime, date, time
@@ -36,7 +39,7 @@ def getCurrentWan():
 def compareWans(new_wan, current_wan):    
     if(new_wan == current_wan):
         logging.info("Wan IP did not change, ending script")
-        print("new_wan: %s, current_wan: %s" % (new_wan, current_wan))
+        logging.info("new_wan: %s, current_wan: %s" % (new_wan, current_wan))
     else:
         file_handle.write("%s, %s\n" %(new_wan, current_time))
         logging.info("New Wan IP detected, logging to file")    
@@ -44,6 +47,3 @@ def compareWans(new_wan, current_wan):
 
 main()
 exit()
-
-
-
