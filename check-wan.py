@@ -21,11 +21,12 @@ def main():
 
 #get new wan ip from google dns
 def getNewWan():    
-    new_wan = subprocess.check_output(cmd, shell=True).strip()
+    new_wan = subprocess.check_output(cmd, shell=True, universal_newlines=True).strip()
     return new_wan
 
 #get current wan from file
 def getCurrentWan():
+    file_handle.seek(0)
     file_line_list = file_handle.readlines()
     try:
         current_wan = file_line_list[-1]
