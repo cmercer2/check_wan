@@ -22,6 +22,7 @@ def main():
 #get new wan ip from google dns
 def getNewWan():    
     new_wan = subprocess.check_output(cmd, shell=True, universal_newlines=True).strip()
+    print("new_wan: {new}".format(new=new_wan))
     return new_wan
 
 #get current wan from file
@@ -31,19 +32,22 @@ def getCurrentWan():
     try:
         current_wan = file_line_list[-1]
         ip, date = current_wan.split(",")
+        print("current_wan: {ip}".format(ip=ip))
         return ip
     except IndexError as error:
         logging.exception(error)
         logging.error("No WAN found in file, ending script")
 
 #compare new wan to current wan, skip write if the same
-def compareWans(new_wan, current_wan):    
+def compareWans(new_wan, current_wan): 
+    print("new_wan: {new}, current_wan: {current}".format(new=new_wan, current=current_wan))   
     if(new_wan == current_wan):
-        logging.info("Wan IP did not change, ending script")
-        logging.info("new_wan: %s, current_wan: %s" % (new_wan, current_wan))
+        print("no change")
+        logging.info("IP did not change, ending script on {date}, new_wan: {new}, current_wan: {current}".format(date=current_time, new=new_wan, current=current_wan))
     else:
-        file_handle.write("%s, %s\n" %(new_wan, current_time))
-        logging.info("New Wan IP detected, logging to file")    
+        print("changed")
+        file_handle.write("{new}, {date}\n".format(new=new_wan, date=current_time))
+        logging.info("New Wan IP detected, logging to file on {date}".format(date=current_time))    
     file_handle.close()
 
 main()
